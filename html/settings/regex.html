@@ -43,6 +43,29 @@
         </div>
     </div>
     <div class="st-chatu8-settings-section">
+        <h4>词汇简单替换</h4>
+        <div class="st-chatu8-field">
+            <label for="ch-word-replace-profile-select">替换配置</label>
+            <div class="st-chatu8-profile-controls">
+                <select id="ch-word-replace-profile-select" class="st-chatu8-select"></select>
+                <button class="st-chatu8-icon-btn" id="ch-new-word-replace-profile-button" title="新建"><i class="fa-solid fa-plus"></i></button>
+                <button class="st-chatu8-icon-btn" id="ch-rename-word-replace-profile-button" title="重命名"><i class="fa-solid fa-pen"></i></button>
+                <button class="st-chatu8-icon-btn" id="ch-save-word-replace-profile-button" title="保存"><i class="fa-solid fa-save"></i></button>
+                <button class="st-chatu8-icon-btn" id="ch-import-word-replace-profile-button" title="导入"><i class="fa-solid fa-file-import"></i></button>
+                <button class="st-chatu8-icon-btn" id="ch-export-word-replace-profile-button" title="导出"><i class="fa-solid fa-file-export"></i></button>
+                <button class="st-chatu8-icon-btn danger" id="ch-delete-word-replace-profile-button" title="删除"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="st-chatu8-field-col">
+            <label for="ch-word-replace-text-editor">正文替换 (显示时替换聊天文本)</label>
+            <textarea id="ch-word-replace-text-editor" class="st-chatu8-textarea" rows="5" placeholder="每行一条规则，格式: 词汇1=词汇2&#10;例如: 肉棒=🥒"></textarea>
+        </div>
+        <div class="st-chatu8-field-col">
+            <label for="ch-word-replace-ai-editor">AI返回替换 (解析AI输出前替换)</label>
+            <textarea id="ch-word-replace-ai-editor" class="st-chatu8-textarea" rows="3" placeholder="每行一条规则，格式: 词汇1=词汇2&#10;例如: safe_="></textarea>
+        </div>
+    </div>
+    <div class="st-chatu8-settings-section">
         <h4>手势录制</h4>
         <div class="st-chatu8-field">
             <label for="ch-gesture-enabled">手势功能开关</label>
