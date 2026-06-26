@@ -127,16 +127,34 @@ function appendImagesGenerations(baseUrl) {
   return String(baseUrl || '').replace(/\/+$/, '') + '/images/generations';
 }
 
+function getSillyTavernProxyUrl(targetUrl) {
+  if (!/^https?:\/\//i.test(String(targetUrl))) return targetUrl;
+  return `/proxy/${targetUrl}`;
+}
+
 function getImageGenerationUrl(url, body) {
-  if (typeof body?.custom_url === 'string' && body.custom_url.trim()) {
-    return appendImagesGenerations(body.custom_url.trim());
+  const targetUrl = typeof body?.custom_url === 'string' && body.custom_url.trim()
+    ? appendImagesGenerations(body.custom_url.trim())
+    : String(url).replace(/\/chat\/completions(?:[?#].*)?$/i, '/images/generations');
+
+  if (isSillyTavernChatProxyUrl(url)) {
+    return getSillyTavernProxyUrl(targetUrl);
   }
 
-  return String(url).replace(/\/chat\/completions(?:[?#].*)?$/i, '/images/generations');
+  return targetUrl;
 }
 
 function getModel(body) {
   return body?.model || body?.custom_model || body?.image_model || '';
+}
+
+function detectBase64ImageMime(base64) {
+  const value = String(base64 || '').trim();
+  if (/^\/9j\//.test(value)) return 'image/jpeg';
+  if (/^iVBORw0KGgo/.test(value)) return 'image/png';
+  if (/^UklGR/.test(value)) return 'image/webp';
+  if (/^R0lGOD/.test(value)) return 'image/gif';
+  return 'image/png';
 }
 
 export async function buildGrokImageRequest(input, init = {}, globalObject = globalThis) {
@@ -179,7 +197,9 @@ export async function buildGrokImageRequest(input, init = {}, globalObject = glo
 export function convertImageGenerationResponse(result, model) {
   const firstImage = result?.data?.[0] || {};
   const imageUrl = firstImage.b64_json
-    ? `data:image/png;base64,${firstImage.b64_json}`
+    ? String(firstImage.b64_json).startsWith('data:')
+      ? firstImage.b64_json
+      : `data:${detectBase64ImageMime(firstImage.b64_json)};base64,${firstImage.b64_json}`
     : firstImage.url;
 
   if (!imageUrl) {
