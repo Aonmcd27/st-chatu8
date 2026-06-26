@@ -1,0 +1,8 @@
+{
+  "name": "st-chatu8",
+  "version": "2.7.5",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/grokImageFetchAdapter.test.mjs"
+  }
+}
